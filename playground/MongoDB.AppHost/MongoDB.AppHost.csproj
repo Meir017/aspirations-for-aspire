@@ -2,13 +2,14 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <UserSecretsId>b15af36b-8a65-4f7e-b26f-7648ac24ac41</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.Azure.CosmosDB" />
-    <PackageReference Include="Aspire.Hosting.Azure.Storage" />
     <PackageReference Include="Aspire.Hosting.MongoDB" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Meir.Aspire.MongoDB.ResourceClientReady\Meir.Aspire.MongoDB.ResourceClientReady.csproj" IsAspireProjectResource="false" />
   </ItemGroup>
 
 </Project>
