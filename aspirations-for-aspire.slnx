@@ -1,3 +1,20 @@
 <Solution>
-  <Project Path="ResourceClientReady/ResourceClientReady.csproj" />
+  <Folder Name="/src/">
+    <Project Path="src/Meir.Aspire.Azure.CosmosDB.ResourceClientReady/Meir.Aspire.Azure.CosmosDB.ResourceClientReady.csproj" />
+    <Project Path="src/Meir.Aspire.MongoDB.ResourceClientReady/Meir.Aspire.MongoDB.ResourceClientReady.csproj" />
+    <Project Path="src/Meir.Aspire.Azure.Storage.ResourceClientReady/Meir.Aspire.Azure.Storage.ResourceClientReady.csproj" />
+  </Folder>
+  <Folder Name="/playground/">
+    <Project Path="playground/CosmosDB.AppHost/CosmosDB.AppHost.csproj" />
+    <Project Path="playground/MongoDB.AppHost/MongoDB.AppHost.csproj" />
+    <Project Path="playground/AzureStorage.AppHost/AzureStorage.AppHost.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/Meir.Aspire.Azure.CosmosDB.ResourceClientReady.Tests/Meir.Aspire.Azure.CosmosDB.ResourceClientReady.Tests.csproj" />
+    <Project Path="test/Meir.Aspire.MongoDB.ResourceClientReady.Tests/Meir.Aspire.MongoDB.ResourceClientReady.Tests.csproj" />
+    <Project Path="test/Meir.Aspire.Azure.Storage.ResourceClientReady.Tests/Meir.Aspire.Azure.Storage.ResourceClientReady.Tests.csproj" />
+  </Folder>
+  <Folder Name="/samples/">
+    <Project Path="ResourceClientReady/ResourceClientReady.csproj" />
+  </Folder>
 </Solution>

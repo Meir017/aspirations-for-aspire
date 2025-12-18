@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    
+    <PackageId>Meir.Aspire.Azure.Storage.ResourceClientReady</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Meir Blachman</Authors>
+    <Description>Resource client ready extensions for Azure Storage in .NET Aspire. Provides OnClientReady callbacks that execute when Azure Storage resources are initialized.</Description>
+    <PackageTags>aspire;dotnet;hosting;azure;storage;blob</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/Meir017/aspirations-for-aspire</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Meir017/aspirations-for-aspire</PackageProjectUrl>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting" />
+    <PackageReference Include="Aspire.Hosting.Azure.Storage" />
+    <PackageReference Include="Azure.Storage.Blobs" />
+  </ItemGroup>
+
+</Project>
