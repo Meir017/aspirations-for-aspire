@@ -1,5 +1,3 @@
-using Aspire.Hosting;
-using Meir.Aspire.Azure.Storage.ResourceClientReady;
 using Meir.Aspire.Testing;
 
 namespace Meir.Aspire.Azure.Storage.ResourceClientReady.Tests;

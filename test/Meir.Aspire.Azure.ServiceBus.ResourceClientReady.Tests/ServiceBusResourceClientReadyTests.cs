@@ -1,10 +1,5 @@
-using Aspire.Hosting;
 using Aspire.Hosting.Azure;
 using Aspire.Hosting.ApplicationModel;
-using Meir.Aspire.Azure.ServiceBus.ResourceClientReady;
-using Meir.Aspire.Testing;
-using Microsoft.Extensions.DependencyInjection;
-using Xunit;
 
 namespace Meir.Aspire.Azure.ServiceBus.ResourceClientReady.Tests;
 

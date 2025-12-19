@@ -1,9 +1,4 @@
-using Aspire.Hosting;
 using Aspire.Hosting.ApplicationModel;
-using Aspire.Hosting.Eventing;
-using Aspire.Hosting.Testing;
-using Microsoft.Extensions.DependencyInjection;
-using Xunit;
 
 namespace Meir.Aspire.Testing;
 

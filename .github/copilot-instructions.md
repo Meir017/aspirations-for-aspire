@@ -1,9 +1,9 @@
 # Aspire Resource Client Ready Libraries - AI Agent Instructions
 
 ## Project Overview
-Collection of .NET Aspire extension libraries that provide event-driven resource initialization patterns. Three NuGet packages extend Aspire's resource model with `OnClientReady` callbacks for Azure CosmosDB, MongoDB, and Azure Storage.
+Collection of .NET Aspire extension libraries that provide event-driven resource initialization patterns. Four NuGet packages extend Aspire's resource model with `OnClientReady` callbacks for Azure CosmosDB, MongoDB, Azure Storage, and Azure Service Bus.
 
-**Tech Stack**: .NET 10.0, Aspire 13.1.0, C# with nullable reference types enabled
+**Tech Stack**: .NET 10.0 (SDK 10.0.100), Aspire 13.1.0, C# with nullable reference types enabled
 
 ## Architecture Pattern
 
@@ -31,9 +31,15 @@ All libraries follow identical architectural patterns:
    - Publish events via `builder.ApplicationBuilder.Eventing.PublishAsync()`
 
 ### Hierarchical Resource Pattern
-CosmosDB demonstrates 3-level hierarchy (Client → Database → Container), MongoDB has 2 levels (Client → Database), Storage has 2 levels (BlobServiceClient → Container). Each level:
-- Gets connection string from parent resource
-- Creates appropriate client instance  
+Libraries support varying resource hierarchies:
+- **CosmosDB**: 3 levels (Client → Database → Container)
+- **Service Bus**: 4 levels (Client → Queue/Topic → Subscription)
+- **MongoDB**: 2 levels (Client → Database)
+- **Storage**: 1 level (BlobContainerClient with auto-create)
+
+Each level:
+- Gets connection string from parent resource (or self for top-level)
+- Creates appropriate client instance
 - Publishes typed ready event
 - Subscribes handlers via private `OnEvent` helper
 
@@ -56,34 +62,53 @@ playground/{Provider}.AppHost/  # Live demonstration apps
 
 ## Critical Conventions
 
-### 1. Central Package Management
+### 1. MSBuild Directory.Build.props Hierarchy
+**IMPORTANT**: MSBuild stops at the FIRST `Directory.Build.props` it finds walking upward.
+
+- Root [Directory.Build.props](../Directory.Build.props) defines: `TargetFramework`, `ImplicitUsings`, `Nullable`
+- Test-specific [test/Directory.Build.props](../test/Directory.Build.props) defines: `IsPackable=false`, `IsTestProject=true`, test package references
+- **Test Directory.Build.props MUST import parent**:
+  ```xml
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))"
+          Condition="'' != $([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../')" />
+  ```
+- Without this import, test projects won't get `TargetFramework` and build will fail
+- Pattern applies to ANY nested Directory.Build.props files
+
+### 2. Central Package Management
 **All dependencies** managed via [Directory.Packages.props](../Directory.Packages.props):
 ```xml
 <PackageVersion Include="Aspire.Hosting" Version="13.1.0" />
 ```
 Projects reference without version: `<PackageReference Include="Aspire.Hosting" />`
 
-### 2. Test Fixture Pattern
+### 3. Test Fixture Pattern
 Use `AspireIntegrationTestFixture<TEntryPoint>` base class from [test/AspireIntegrationTestFixture.cs](../test/AspireIntegrationTestFixture.cs):
 - Inherits `DistributedApplicationFactory` and `IAsyncLifetime`
-- Provides `ResourceNotificationService` for health checks
+- Provides `ResourceNotificationService` for health checks via `WaitForResourceHealthyAsync()`
 - Configures HTTP resilience handlers automatically
 - 10-minute startup timeout for resource initialization
+- **Subscribe to events via `ApplicationBuilder.Eventing.Subscribe<TEvent>()`, NOT directly on resources**
 
 ```csharp
-public class MyIntegrationTestFixture() : AspireIntegrationTestFixture<Program>
+public class MyIntegrationTestFixture() : AspireIntegrationTestFixture<Projects.MyAppHost>
 {
     public bool EventFired { get; private set; }
     
     protected override void OnBuilderCreated(DistributedApplicationBuilder builder)
     {
-        builder.AddResource().OnClientReady(async (evt, ct) => EventFired = true);
+        // Subscribe to global events, NOT resource-specific ones
+        builder.Eventing.Subscribe<MyResourceReadyEvent>((evt, ct) =>
+        {
+            EventFired = true;
+            return Task.CompletedTask;
+        });
         base.OnBuilderCreated(builder);
     }
 }
 ```
 
-### 3. Event Subscription Safety
+### 4. Event Subscription Safety
 Always check for existing annotations to prevent duplicate subscriptions:
 ```csharp
 if (!builder.Resource.TryGetLastAnnotation<MyAnnotation>(out var existingEvent))
@@ -93,7 +118,7 @@ if (!builder.Resource.TryGetLastAnnotation<MyAnnotation>(out var existingEvent))
 }
 ```
 
-### 4. Playground AppHost Structure
+### 5. Playground AppHost Structure
 Demonstrate all resource levels in [playground/](../playground/) apps:
 - Use `.RunAsEmulator()` for cloud resources in demos
 - Show cascading `OnClientReady` calls at each level

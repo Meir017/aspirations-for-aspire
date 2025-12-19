@@ -1,4 +1,3 @@
-using Aspire.Hosting.ApplicationModel;
 using Meir.Aspire.Azure.CosmosDB.ResourceClientReady;
 
 var builder = DistributedApplication.CreateBuilder(args);

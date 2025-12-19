@@ -1,5 +1,3 @@
-using Xunit;
-
 namespace Meir.Aspire.MongoDB.ResourceClientReady.Tests;
 
 public class MongoDBResourceClientReadyTests(

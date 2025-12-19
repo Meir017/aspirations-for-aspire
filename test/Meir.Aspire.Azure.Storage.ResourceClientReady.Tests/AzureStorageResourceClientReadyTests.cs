@@ -1,5 +1,3 @@
-using Xunit;
-
 namespace Meir.Aspire.Azure.Storage.ResourceClientReady.Tests;
 
 public class AzureStorageResourceClientReadyTests(

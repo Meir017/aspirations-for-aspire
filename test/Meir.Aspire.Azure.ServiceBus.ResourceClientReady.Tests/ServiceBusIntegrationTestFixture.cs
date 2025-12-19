@@ -1,4 +1,3 @@
-using Aspire.Hosting;
 using Meir.Aspire.Azure.ServiceBus.ResourceClientReady.Events;
 using Meir.Aspire.Testing;
 
