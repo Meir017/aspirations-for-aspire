@@ -1,4 +1,3 @@
-using Aspire.Hosting.ApplicationModel;
 using Meir.Aspire.Azure.Storage.ResourceClientReady;
 
 var builder = DistributedApplication.CreateBuilder(args);

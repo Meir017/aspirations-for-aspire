@@ -1,5 +1,3 @@
-using Aspire.Hosting;
-using Meir.Aspire.MongoDB.ResourceClientReady;
 using Meir.Aspire.Testing;
 
 namespace Meir.Aspire.MongoDB.ResourceClientReady.Tests;

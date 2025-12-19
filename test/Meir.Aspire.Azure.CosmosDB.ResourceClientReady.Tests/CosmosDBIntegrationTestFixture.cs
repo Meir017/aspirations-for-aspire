@@ -1,5 +1,3 @@
-using Aspire.Hosting;
-using Meir.Aspire.Azure.CosmosDB.ResourceClientReady;
 using Meir.Aspire.Testing;
 
 namespace Meir.Aspire.Azure.CosmosDB.ResourceClientReady.Tests;

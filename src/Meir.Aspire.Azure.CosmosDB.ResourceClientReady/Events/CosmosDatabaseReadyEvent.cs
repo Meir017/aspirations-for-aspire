@@ -1,6 +1,5 @@
 using Aspire.Hosting;
 using Aspire.Hosting.ApplicationModel;
-using Aspire.Hosting.Azure;
 using Aspire.Hosting.Eventing;
 using Microsoft.Azure.Cosmos;
 

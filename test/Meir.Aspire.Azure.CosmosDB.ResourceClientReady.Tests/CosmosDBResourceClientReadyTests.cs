@@ -1,5 +1,3 @@
-using Xunit;
-
 namespace Meir.Aspire.Azure.CosmosDB.ResourceClientReady.Tests;
 
 public class CosmosDBResourceClientReadyTests(

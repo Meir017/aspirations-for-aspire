@@ -1,4 +1,3 @@
-using Aspire.Hosting;
 using Aspire.Hosting.ApplicationModel;
 using Aspire.Hosting.Eventing;
 using MongoDB.Driver;
