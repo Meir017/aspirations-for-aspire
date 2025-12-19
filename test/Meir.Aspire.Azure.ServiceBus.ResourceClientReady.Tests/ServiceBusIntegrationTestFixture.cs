@@ -1,45 +1,42 @@
+using Aspire.Hosting;
+using Meir.Aspire.Testing;
+
 namespace Meir.Aspire.Azure.ServiceBus.ResourceClientReady.Tests;
 
-public class ServiceBusIntegrationTestFixture() : AspireIntegrationTestFixture<ServiceBusIntegrationTestFixture.TestProgram>
+public class ServiceBusIntegrationTestFixture : AspireIntegrationTestFixture<Projects.ServiceBus_AppHost>
 {
-    public class TestProgram { }
-
     public bool ClientEventFired { get; private set; }
     public bool QueueEventFired { get; private set; }
     public bool TopicEventFired { get; private set; }
     public bool SubscriptionEventFired { get; private set; }
 
-    protected override void OnBuilderCreated(DistributedApplicationBuilder builder)
+    protected override void OnBuilderCreated(DistributedApplicationBuilder applicationBuilder)
     {
-        var serviceBus = builder.AddAzureServiceBus("testservicebus")
-            .RunAsEmulator()
-            .OnClientReady(async (evt, ct) =>
-            {
-                ClientEventFired = true;
-                await Task.CompletedTask;
-            });
+        // Subscribe to Service Bus client ready events to track when they fire
+        applicationBuilder.Eventing.Subscribe<Events.ServiceBusClientReadyEvent>((evt, ct) =>
+        {
+            ClientEventFired = true;
+            return Task.CompletedTask;
+        });
 
-        var queue = serviceBus.AddServiceBusQueue("testqueue")
-            .OnClientReady(async (evt, ct) =>
-            {
-                QueueEventFired = true;
-                await Task.CompletedTask;
-            });
+        applicationBuilder.Eventing.Subscribe<Events.ServiceBusQueueReadyEvent>((evt, ct) =>
+        {
+            QueueEventFired = true;
+            return Task.CompletedTask;
+        });
 
-        var topic = serviceBus.AddServiceBusTopic("testtopic")
-            .OnClientReady(async (evt, ct) =>
-            {
-                TopicEventFired = true;
-                await Task.CompletedTask;
-            });
+        applicationBuilder.Eventing.Subscribe<Events.ServiceBusTopicReadyEvent>((evt, ct) =>
+        {
+            TopicEventFired = true;
+            return Task.CompletedTask;
+        });
 
-        var subscription = topic.AddServiceBusSubscription("testsubscription")
-            .OnClientReady(async (evt, ct) =>
-            {
-                SubscriptionEventFired = true;
-                await Task.CompletedTask;
-            });
+        applicationBuilder.Eventing.Subscribe<Events.ServiceBusSubscriptionReadyEvent>((evt, ct) =>
+        {
+            SubscriptionEventFired = true;
+            return Task.CompletedTask;
+        });
 
-        base.OnBuilderCreated(builder);
+        base.OnBuilderCreated(applicationBuilder);
     }
 }
