@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>true</IsPackable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Authors>Meir Blachman</Authors>
+    <Description>Provides OnClientReady event-driven callbacks for Azure Service Bus resources in .NET Aspire applications</Description>
+    <PackageTags>aspire;azure;servicebus;messaging;event-driven</PackageTags>
+    <RepositoryUrl>https://github.com/Meir017/aspirations-for-aspire</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Meir017/aspirations-for-aspire</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.Azure.ServiceBus" />
+    <PackageReference Include="Azure.Messaging.ServiceBus" />
+  </ItemGroup>
+
+</Project>
