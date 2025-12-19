@@ -17,7 +17,7 @@ public class ServiceBusResourceClientReadyTests(ServiceBusIntegrationTestFixture
         // Arrange & Act
         var serviceBusResource = fixture.App.Services.GetRequiredService<DistributedApplicationModel>()
             .Resources.OfType<AzureServiceBusResource>()
-            .Single(r => r.Name == "testservicebus");
+            .Single(r => r.Name == "demoservicebus");
 
         await fixture.ResourceNotificationService.WaitForResourceHealthyAsync(serviceBusResource.Name)
             .WaitAsync(TimeSpan.FromMinutes(5));
@@ -32,7 +32,7 @@ public class ServiceBusResourceClientReadyTests(ServiceBusIntegrationTestFixture
         // Arrange & Act
         var queueResource = fixture.App.Services.GetRequiredService<DistributedApplicationModel>()
             .Resources.OfType<AzureServiceBusQueueResource>()
-            .Single(r => r.Name == "testqueue");
+            .Single(r => r.Name == "orders");
 
         await fixture.ResourceNotificationService.WaitForResourceHealthyAsync(queueResource.Parent.Name)
             .WaitAsync(TimeSpan.FromMinutes(5));
@@ -50,7 +50,7 @@ public class ServiceBusResourceClientReadyTests(ServiceBusIntegrationTestFixture
         // Arrange & Act
         var topicResource = fixture.App.Services.GetRequiredService<DistributedApplicationModel>()
             .Resources.OfType<AzureServiceBusTopicResource>()
-            .Single(r => r.Name == "testtopic");
+            .Single(r => r.Name == "notifications");
 
         await fixture.ResourceNotificationService.WaitForResourceHealthyAsync(topicResource.Parent.Name)
             .WaitAsync(TimeSpan.FromMinutes(5));
@@ -68,7 +68,7 @@ public class ServiceBusResourceClientReadyTests(ServiceBusIntegrationTestFixture
         // Arrange & Act
         var subscriptionResource = fixture.App.Services.GetRequiredService<DistributedApplicationModel>()
             .Resources.OfType<AzureServiceBusSubscriptionResource>()
-            .Single(r => r.Name == "testsubscription");
+            .Single(r => r.Name == "email-alerts");
 
         await fixture.ResourceNotificationService.WaitForResourceHealthyAsync(subscriptionResource.Parent.Parent.Name)
             .WaitAsync(TimeSpan.FromMinutes(5));
